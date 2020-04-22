@@ -42,8 +42,6 @@ void WriteNoise(const string fileName)
     int ny = 512;
     ouTT << "P3\n" << nx << " " << ny << "\n255\n";
     
-    int aa = 0;
-    
     for (int j = ny-1; j >= 0; j--) {
         for (int i = 0; i < nx; i++) {
             
@@ -60,15 +58,8 @@ void WriteNoise(const string fileName)
             
             ouTT << r << " " << g << " " << b << "\n";    //流输出内容，用法和COUT一样
             
-            if(g >255/6*5)
-                aa++;
-            //                std::cout<< ran << " " << ran << " " << ran << "\n";
-            
         }
     }
-    
-    std::cout<< aa << "\n";
-    
     
     ouTT.close();
 }
