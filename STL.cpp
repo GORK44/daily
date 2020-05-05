@@ -12,7 +12,7 @@
 
 #include <string>
 #include <vector>
-#include <algorithm>
+#include <list>
 
 int main(int argc, const char * argv[]) {
     
@@ -109,8 +109,36 @@ int main(int argc, const char * argv[]) {
     //================================================
     
     
-    
+    //List
     //================================================
+    std::list<std::string> words1;
+    std::list<std::string> sayings {20}; // A list of 20 empty strings
+    std::list<double> values1(50, 3.14159265);//生成了一个具有 50 个 double 型值的列表，并且每一个值都等于 π
+    std::list<double> save_values {values1}; // 拷贝构造函数，可以生成一个现有 list 容器的副本
+
+    //添加元素
+    std::list<std::string> names { "Jane", "Jim", "Jules", "Janet"};
+    names.push_front("Ian"); // 在它的头部添加一个元素"Ian"
+    names.push_back("Kitty"); // 在 list 容器的末尾添加一个元素"Kitty"
+    
+    //插入元素
+    std::list<int> data1(10, 55); // 10个55
+    data1.insert(++begin(data1), 66); // 插入66到第二个位置。data1: 55 66 55 55 55 55 55 55 55 55 55（11个元素）
+    
+    auto iter1 = begin(data1); //iter 是 list<int>::iterator 类型（迭代器，是确使用户可在容器对象上遍访的对象）
+    std::advance(iter1, 9); // iter + 9 ，为了得到第10个元素
+    data1.insert(iter1, 3, 88);// 从第10个元素处开始插入3个88，得到55 66 55 55 55 55 55 55 55 88 88 88 55 55
+                                                    //元素位置：1  2  3  4  5  6  7  8  9  10 11 12 13 14
+    
+    //删除元素
+    std::list<int> numbers { 2, 5, 2, 3, 6, 7, 8, 2, 9};
+    numbers.remove(2); // List is now 5 3 6 7 8 9（移除了 numbers 中出现的所有值等于 2 的元素。）
+//    numbers.clear(); //清空
+    numbers.remove_if([](int n){return n%2 == 0;});//断言返回 true 的所有元素都会被移除。（结果：5 3 7 9）
+    
+    std::list<std::string> words2 { "one", "two", "two", "two","three", "four", "four"};
+    words2.unique () ; // Now contains "one" "two" "three" "four"
+    //unique ()移除连续的重复元素，只留下其中的第一个。
     
     
     
