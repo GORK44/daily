@@ -13,6 +13,8 @@
 #include <string>
 #include <vector>
 #include <list>
+#include <map>
+#include <unordered_map>
 
 int main(int argc, const char * argv[]) {
     
@@ -140,11 +142,72 @@ int main(int argc, const char * argv[]) {
     words2.unique () ; // Now contains "one" "two" "three" "four"
     //unique ()移除连续的重复元素，只留下其中的第一个。
     
+    //================================================
+
     
+    //Map
+    //================================================
+    //创建
+    std::map<std::string, size_t> people;//size_t 类型的值表示年龄，作为它保存的值，string 类型的值表示名称，作为它的键
+    std::map<std::string, size_t> people1{{"Ann", 25}, {"Bill", 46},{"Jack", 32},{"Jill", 32}};
+    
+    std::map<std::string, size_t> people2{std::make_pair("Ann",25),std::make_pair("Bill", 46),std::make_pair("Jack", 32),std::make_pair("Jill", 32)};
+    
+    std::map<std::string, size_t> personnel {people}; // 复制 Duplicate people map
+    std::cout<<people1["Jack"]<<std::endl;
+    
+    //插入 Create a pair element and insert it
+    auto pr = std::make_pair("Fred",22); //pr 对象的类型是 pair<const char*,int>。在 insert() 操作中，这个对象会被隐式转换为容器元素类型。
+    people1.insert(pr); //插入
+    std::cout<<people1["Fred"]<<std::endl;
+    
+    //输出map元素。键值自动排序
+    std::map<std::string, size_t>::iterator iterMap;
+    iterMap = people1.begin();
+//    iterMap->second = 22;//修改第一个键值对的值
+//    people1["Bill"] = 43;//修改键值“Bill”对应的值
+//    people1.erase("Jack"); //移除键和参数匹配的元素
+//    people1.clear(); //清空
+    while(iterMap != people1.end()) {
+        std::cout << iterMap->first << " : " << iterMap->second << std::endl;
+        //输出：Ann : 25， Bill : 46， Fred : 22， Jack : 32， Jill : 32
+        iterMap++;
+    }
+    
+    //pair：
+    //make_pair<T1，T2> 函数模板是一个辅助函数，可以生成并返回一个 pair<T1，T2> 对象。 可以如下所示生成先前代码块中的 pair 对象：
+    std::string s1{"test"};
+    std::string s2{"that"};
+    auto my_pair = std::make_pair(s1, s2);
+    auto your_pair = std::make_pair(std::string {"test"},std::string {"that"});
+    auto his_pair = std::make_pair<std::string, std::string>("test",std::string {"that"});
+    auto her_pair = std::make_pair<std::string, std::string>("test", "that");
     
     //================================================
-    
-    
-    
 
+    
+    //unordered_map
+    //================================================
+    std::unordered_map<std::string, size_t> people3;
+    std::unordered_map<std::string, size_t> people4 { {"Jim", 33}, { "Joe", 99}};// Name,age
+    std::cout<<people4.bucket_count()<<std::endl;//bucket_count() 个数
+    //插入
+    auto pr1 = people4.insert (std::pair<std::string, size_t> {"Jan", 44});
+    std:: cout << "Element " << (pr1.second ? "was" : "was not") << " inserted." << std::endl;
+    
+    //获取元素
+    people4["Jim"] = 22; //Set Jim's age to 22;
+    people4["Jan"] = people4["Jim"]; //Set May's age to Jim's
+    ++people4 ["Joe"] ; //Increment Joe's age
+    people4 ["Kit"] = people4 ["Joe"]; // 如果容器中不存在”Kit”，上面最后一条语句会生成一个以“kit”为键、年龄值为 0 的元素；最后"Joe”所关联的对象会被复制到"Kit"。
+    for(const auto& person4 : people4)//循环取出people4中元素。当你只想要读取range里面的元素时，使用const auto&
+        std::cout << person4.first << " is "<< person4.second <<std::endl;
+
+    //删除元素
+    auto n4 = people4.erase ("Jim");// 当参数是键时，erase() 会返回一个整数，它是移除元素的个数，所以 0 表示没有找到匹配的元素。
+    auto iter4 = people4.find ("May") ; // 如果不存在，返回end()指针
+    if(iter4 != people4.end())
+        iter4 = people4.erase (iter4) ;// 参数是迭代器时，返回的迭代器指向被移除元素后的元素。
+    
+    //================================================
 }
