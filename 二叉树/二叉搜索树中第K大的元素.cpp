@@ -39,24 +39,42 @@ struct TreeNode {
 };
 
 
-
 class Solution {
 public:
-    int n=0;
+    
+    int n = 0;
     int res;
-    int kthSmallest(TreeNode* root, int k) {
-        //递归
-        dfs(root,k);
+    int kthLargest(TreeNode* root, int k) {
+        dfs(root, k);
         return res;
     }
     
-    void dfs(TreeNode* root,int k){
-        if(!root)return ;
+private:
+    void dfs(TreeNode *root, int k) {
+        if (root == nullptr) return;
         
-        dfs(root->left,k);  //先left后right，二叉搜索树中序遍历从小到大
+        dfs(root->right, k);  ////先left后right，二叉搜索树中序遍历从大到小
         n++;
-        if(n==k) res=root->val;
-        dfs(root->right,k);
+        if(n == k)  res = root->val;
+        dfs(root->left, k);
+    }
+};
+
+
+//或用数组保存所有节点，输出result[k-1]
+class Solution1 {
+public:
+    int kthLargest(TreeNode* root, int k) {
+        vector<int> result;
+        dfs(result, root);
+        return result[k-1];
     }
     
+private:
+    void dfs(vector<int> &result, TreeNode *node) {
+        if (node == nullptr) return;
+        dfs(result, node->right);
+        result.push_back(node->val);
+        dfs(result, node->left);
+    }
 };
